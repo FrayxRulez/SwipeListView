@@ -1,0 +1,104 @@
+﻿<Page
+    x:Class="Demo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uwp="using:Universal.UI.Xaml.Controls"
+    xmlns:viewModels="using:Demo.ViewModels"
+    xmlns:converters="using:Demo.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
+    <Page.Resources>
+        <viewModels:EmailCollection x:Name="Emails"/>
+        <converters:LeftTextConverter x:Key="LeftTextConverter"/>
+        <converters:SubjectForegroundConverter x:Key="SubjectForegroundConverter"/>
+    </Page.Resources>
+    
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="new">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/AppBar/add.png"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="select">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/AppBar/manage.png"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="sync">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/AppBar/refresh.png"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Label="search">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="Assets/AppBar/feature.search.png"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Border Background="#007aff" Height="{ThemeResource PhoneButtonMinHeight}" Padding="19,0">
+                <TextBlock Text="OUTLOOK" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" Foreground="White"/>
+            </Border>
+            <Border Background="{ThemeResource PhoneChromeBrush}" Height="40" Padding="19,0">
+                <TextBlock Text="Inbox" Style="{ThemeResource ControlHeaderTextBlockStyle}" VerticalAlignment="Center"/>
+            </Border>
+        </StackPanel>
+
+        <uwp:SwipeListView x:Name="List" 
+                           ItemsSource="{StaticResource Emails}" 
+                           IsItemClickEnabled="True" 
+                           ItemSwipe="SwipeListView_ItemSwipe" 
+                           ItemClick="SwipeListView_ItemClick" Grid.Row="1">
+            <uwp:SwipeListView.ItemLeftContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Unread, Converter={StaticResource LeftTextConverter}}" Foreground="White" Style="{ThemeResource ListViewItemContentTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center"/>
+                        <Path Data="F1M0,0L0,36 2.25,36 2.25,18 13.5,18 13.5,22.5 29.25,22.5 29.25,4.5 15.75,4.5 15.75,0z M2.25,2.25L13.5,2.25 13.5,15.75 2.25,15.75z M15.75,6.75L27,6.75 27,20.25 15.75,20.25z" Fill="White" Height="24" Stretch="Uniform" Width="24" Margin="19,0,19,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </uwp:SwipeListView.ItemLeftContentTemplate>
+            <uwp:SwipeListView.ItemRightContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Path Data="F1M20.25,29.25L18,29.25 18,11.25 20.25,11.25z M15.75,29.25L13.5,29.25 13.5,11.25 15.75,11.25z M11.25,4.5L18,4.5 18,2.25 11.25,2.25z M11.25,29.25L9,29.25 9,11.25 11.25,11.25z M24.75,6.75L4.5,6.75 4.5,32.625C4.5,32.93 4.611,33.193 4.834,33.416 5.057,33.639 5.32,33.75 5.625,33.75L23.625,33.75C23.93,33.75 24.193,33.639 24.416,33.416 24.639,33.193 24.75,32.93 24.75,32.625z M29.25,6.75L27,6.75 27,32.625C27,33.094 26.912,33.533 26.736,33.943 26.561,34.354 26.32,34.711 26.016,35.016 25.711,35.32 25.354,35.561 24.943,35.736 24.533,35.912 24.094,36 23.625,36L5.625,36C5.156,36 4.717,35.912 4.307,35.736 3.896,35.561 3.539,35.32 3.234,35.016 2.93,34.711 2.689,34.354 2.514,33.943 2.338,33.533 2.25,33.094 2.25,32.625L2.25,6.75 0,6.75 0,4.5 9,4.5 9,2.25C9,1.934 9.059,1.641 9.176,1.371 9.293,1.102 9.454,0.864 9.659,0.659 9.864,0.454 10.102,0.293 10.371,0.176 10.641,0.059 10.934,0 11.25,0L18,0C18.316,0 18.609,0.059 18.879,0.176 19.148,0.293 19.386,0.454 19.591,0.659 19.796,0.864 19.957,1.102 20.074,1.371 20.191,1.641 20.25,1.934 20.25,2.25L20.25,4.5 29.25,4.5z" Fill="White" Height="24" Stretch="Uniform" Width="24" Margin="19,0,19,0"/>
+                        <TextBlock Text="Delete" Foreground="White" Style="{ThemeResource ListViewItemContentTextBlockStyle}" TextAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </uwp:SwipeListView.ItemRightContentTemplate>
+            <uwp:SwipeListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0,0,0,1" BorderBrush="{ThemeResource PhoneChromeBrush}">
+                        <Grid Margin="19,8,19,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Sender}" Style="{ThemeResource ListViewItemTextBlockStyle}" Margin="0,-6,0,0"/>
+                            <TextBlock Text="{Binding Subject}" Foreground="{Binding Unread, Converter={StaticResource SubjectForegroundConverter}}" Style="{ThemeResource ListViewItemContentTextBlockStyle}" Grid.Row="1" Grid.ColumnSpan="2"/>
+                            <TextBlock Text="{Binding Body}" Style="{ThemeResource ListViewItemSubheaderTextBlockStyle}" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                            <TextBlock Text="{Binding Time}" Style="{ThemeResource ListViewItemContentTextBlockStyle}" Grid.Column="1" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </uwp:SwipeListView.ItemTemplate>
+        </uwp:SwipeListView>
+    </Grid>
+</Page>
