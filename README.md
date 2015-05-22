@@ -29,7 +29,9 @@ A demo project (Runtime) is included in solution.
 
 Install
 =======
-To use this controls you have just to add the project to your solution.
-A [NuGet] package is not available at this time.
+You can install the library via [NuGet].
+
+###Install-Package [SwipeListView]
 
 [NuGet]:http://nuget.org/
+[SwipeListView]:http://www.nuget.org/packages/SwipeListView
