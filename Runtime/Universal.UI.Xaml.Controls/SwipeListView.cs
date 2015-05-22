@@ -38,13 +38,6 @@ namespace Universal.UI.Xaml.Controls
             SetItemBinding(container, "ItemRightContentTemplate", SwipeListViewItem.RightContentTemplateProperty);
             SetItemBinding(container, "ItemRightBackground", SwipeListViewItem.RightBackgroundProperty);
             SetItemBinding(container, "ItemRightBehavior", SwipeListViewItem.RightBehaviorProperty);
-            //container.LeftContentTemplate = ItemLeftContentTemplate;
-            //container.LeftBackground = ItemLeftBackground;
-            //container.LeftBehavior = ItemLeftBehavior;
-
-            //container.RightContentTemplate = ItemRightContentTemplate;
-            //container.RightBackground = ItemRightBackground;
-            //container.RightBehavior = ItemRightBehavior;
 
             container.ItemSwipe += Item_ItemSwipe;
 
@@ -66,16 +59,6 @@ namespace Universal.UI.Xaml.Controls
             if (container != null)
             {
                 container.ResetSwipe();
-                //container.LeftContentTemplate = ItemLeftContentTemplate;
-                //container.LeftBackground = ItemLeftBackground;
-                //container.LeftBehavior = ItemLeftBehavior;
-
-                //container.RightContentTemplate = ItemRightContentTemplate;
-                //container.RightBackground = ItemRightBackground;
-                //container.RightBehavior = ItemRightBehavior;
-
-                //container.ItemSwipe -= Item_ItemSwipe;
-                //container.ItemSwipe += Item_ItemSwipe;
             }
 
             base.PrepareContainerForItemOverride(element, item);
@@ -87,6 +70,9 @@ namespace Universal.UI.Xaml.Controls
                 ItemSwipe(this, e);
         }
 
+        /// <summary>
+        /// Occurs when an item in the list view is swiped from left or right.
+        /// </summary>
         public event ItemSwipeEventHandler ItemSwipe;
 
         #region ItemLeftContentTemplate
@@ -96,6 +82,9 @@ namespace Universal.UI.Xaml.Controls
             set { SetValue(ItemLeftContentTemplateProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the ItemLeftContentTemplate dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemLeftContentTemplateProperty =
             DependencyProperty.Register("ItemLeftContentTemplate", typeof(DataTemplate), typeof(SwipeListView), new PropertyMetadata(null));
         #endregion
@@ -107,6 +96,9 @@ namespace Universal.UI.Xaml.Controls
             set { SetValue(ItemLeftBackgroundProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the ItemLeftBackground dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemLeftBackgroundProperty =
             DependencyProperty.Register("ItemLeftBackground", typeof(Brush), typeof(SwipeListView), new PropertyMetadata(null));
         #endregion
@@ -118,6 +110,9 @@ namespace Universal.UI.Xaml.Controls
             set { SetValue(ItemLeftBehaviorProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the ItemLeftBehavior dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemLeftBehaviorProperty =
             DependencyProperty.Register("ItemLeftBehavior", typeof(SwipeListBehavior), typeof(SwipeListView), new PropertyMetadata(SwipeListBehavior.Collapse));
         #endregion
@@ -129,6 +124,9 @@ namespace Universal.UI.Xaml.Controls
             set { SetValue(ItemRightContentTemplateProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the ItemRightContentTemplate dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemRightContentTemplateProperty =
             DependencyProperty.Register("ItemRightContentTemplate", typeof(DataTemplate), typeof(SwipeListView), new PropertyMetadata(null));
         #endregion
@@ -140,6 +138,9 @@ namespace Universal.UI.Xaml.Controls
             set { SetValue(ItemRightBackgroundProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the ItemRightBackground dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemRightBackgroundProperty =
             DependencyProperty.Register("ItemRightBackground", typeof(Brush), typeof(SwipeListView), new PropertyMetadata(null));
         #endregion
@@ -151,6 +152,9 @@ namespace Universal.UI.Xaml.Controls
             set { SetValue(ItemRightBehaviorProperty, value); }
         }
 
+        /// <summary>
+        /// Identifies the ItemRightBehavior dependency property.
+        /// </summary>
         public static readonly DependencyProperty ItemRightBehaviorProperty =
             DependencyProperty.Register("ItemRightBehavior", typeof(SwipeListBehavior), typeof(SwipeListView), new PropertyMetadata(SwipeListBehavior.Expand));
         #endregion
