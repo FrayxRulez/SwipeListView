@@ -10,14 +10,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using VisibilityEnum = System.Windows.Visibility;
 #else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using VisiblityEnum = Windows.UI.Xaml.Visiblity;
 #endif
 
 namespace Universal.UI.Xaml.Controls
@@ -111,15 +109,15 @@ namespace Universal.UI.Xaml.Controls
                 {
                     DragBackground.Background = LeftBackground;
 
-                    LeftContainer.Visibility = VisibilityEnum.Visible;
-                    RightContainer.Visibility = VisibilityEnum.Collapsed;
+                    LeftContainer.Visibility = Visibility.Visible;
+                    RightContainer.Visibility = Visibility.Collapsed;
                 }
                 else if (_direction == SwipeListDirection.Right && RightBehavior != SwipeListBehavior.Disabled)
                 {
                     DragBackground.Background = RightBackground;
 
-                    LeftContainer.Visibility = VisibilityEnum.Collapsed;
-                    RightContainer.Visibility = VisibilityEnum.Visible;
+                    LeftContainer.Visibility = Visibility.Collapsed;
+                    RightContainer.Visibility = Visibility.Visible;
                 }
                 else
                 {
