@@ -99,7 +99,7 @@ namespace Universal.UI.Xaml.Controls
 
             if (_direction == SwipeListDirection.Left)
             {
-                var area1 = LeftBehavior == SwipeListBehavior.Collapse ? 1.7 : 2.5;
+                var area1 = LeftBehavior == SwipeListBehavior.Collapse ? 1.5 : 2.5;
                 var area2 = LeftBehavior == SwipeListBehavior.Collapse ? 2 : 3;
 
                 ContentDragTransform.X = Math.Max(0, Math.Min(e.Cumulative.Translation.X, ActualWidth));
@@ -110,7 +110,7 @@ namespace Universal.UI.Xaml.Controls
                 }
                 else if (ContentDragTransform.X >= target * area1 && ContentDragTransform.X < target * area2)
                 {
-                    LeftTransform.X += (e.Delta.Translation.X * 3);
+                    LeftTransform.X += (e.Delta.Translation.X * 2.5);
                 }
                 else
                 {
@@ -124,7 +124,7 @@ namespace Universal.UI.Xaml.Controls
             }
             else if (_direction == SwipeListDirection.Right)
             {
-                var area1 = RightBehavior == SwipeListBehavior.Collapse ? 1.7 : 2.5;
+                var area1 = RightBehavior == SwipeListBehavior.Collapse ? 1.5 : 2.5;
                 var area2 = RightBehavior == SwipeListBehavior.Collapse ? 2 : 3;
 
                 ContentDragTransform.X = Math.Max(-ActualWidth, Math.Min(e.Cumulative.Translation.X, 0));
@@ -135,7 +135,7 @@ namespace Universal.UI.Xaml.Controls
                 }
                 else if (ContentDragTransform.X <= -(target * area1) && ContentDragTransform.X > -(target * area2))
                 {
-                    RightTransform.X += (e.Delta.Translation.X * 3);
+                    RightTransform.X += (e.Delta.Translation.X * 2.5);
                 }
                 else
                 {
