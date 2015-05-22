@@ -4,15 +4,29 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+#if SILVERLIGHT
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using VisibilityEnum = System.Windows.Visibility;
+#else
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using VisiblityEnum = Windows.UI.Xaml.Visiblity;
+#endif
 
 namespace Universal.UI.Xaml.Controls
 {
+#if SILVERLIGHT
+    public class SwipeListViewItem : ListBoxItem
+#else
     public class SwipeListViewItem : ListViewItem
+#endif
     {
         private TranslateTransform ContentDragTransform;
         private TranslateTransform LeftTransform;
@@ -30,7 +44,12 @@ namespace Universal.UI.Xaml.Controls
             DefaultStyleKey = typeof(SwipeListViewItem);
         }
 
-        protected override void OnApplyTemplate()
+#if SILVERLIGHT
+        public
+#else
+        protected
+#endif
+            override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
@@ -59,13 +78,25 @@ namespace Universal.UI.Xaml.Controls
 
         private SwipeListDirection _direction = SwipeListDirection.None;
 
+#if SILVERLIGHT
+        protected override void OnManipulationDelta(ManipulationDeltaEventArgs e)
+#else
         protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
+#endif
         {
             var target = ((ActualWidth / 5) * 1);
 
+#if SILVERLIGHT
+            var delta = e.DeltaManipulation.Translation;
+            var cumulative = e.CumulativeManipulation.Translation;
+#else
+            var delta = e.Delta.Translation;
+            var cumulative = e.Cumulative.Translation;
+#endif
+
             if (_direction == SwipeListDirection.None)
             {
-                _direction = e.Delta.Translation.X > 0 
+                _direction = delta.X > 0 
                     ? SwipeListDirection.Left 
                     : SwipeListDirection.Right;
 
@@ -80,15 +111,15 @@ namespace Universal.UI.Xaml.Controls
                 {
                     DragBackground.Background = LeftBackground;
 
-                    LeftContainer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    RightContainer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    LeftContainer.Visibility = VisibilityEnum.Visible;
+                    RightContainer.Visibility = VisibilityEnum.Collapsed;
                 }
                 else if (_direction == SwipeListDirection.Right && RightBehavior != SwipeListBehavior.Disabled)
                 {
                     DragBackground.Background = RightBackground;
 
-                    LeftContainer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    RightContainer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    LeftContainer.Visibility = VisibilityEnum.Collapsed;
+                    RightContainer.Visibility = VisibilityEnum.Visible;
                 }
                 else
                 {
@@ -102,22 +133,22 @@ namespace Universal.UI.Xaml.Controls
                 var area1 = LeftBehavior == SwipeListBehavior.Collapse ? 1.5 : 2.5;
                 var area2 = LeftBehavior == SwipeListBehavior.Collapse ? 2 : 3;
 
-                ContentDragTransform.X = Math.Max(0, Math.Min(e.Cumulative.Translation.X, ActualWidth));
+                ContentDragTransform.X = Math.Max(0, Math.Min(cumulative.X, ActualWidth));
 
                 if (ContentDragTransform.X < target * area1)
                 {
-                    LeftTransform.X += (e.Delta.Translation.X / 1.5);
+                    LeftTransform.X += (delta.X / 1.5);
                 }
                 else if (ContentDragTransform.X >= target * area1 && ContentDragTransform.X < target * area2)
                 {
-                    LeftTransform.X += (e.Delta.Translation.X * 2.5);
+                    LeftTransform.X += (delta.X * 2.5);
                 }
                 else
                 {
-                    LeftTransform.X = Math.Max(0, Math.Min(e.Cumulative.Translation.X, ActualWidth)) - LeftContainer.ActualWidth;
+                    LeftTransform.X = Math.Max(0, Math.Min(cumulative.X, ActualWidth)) - LeftContainer.ActualWidth;
                 }
 
-                if (ContentDragTransform.X == 0 && e.Delta.Translation.X < 0)
+                if (ContentDragTransform.X == 0 && delta.X < 0)
                 {
                     _direction = SwipeListDirection.None;
                 }
@@ -127,22 +158,22 @@ namespace Universal.UI.Xaml.Controls
                 var area1 = RightBehavior == SwipeListBehavior.Collapse ? 1.5 : 2.5;
                 var area2 = RightBehavior == SwipeListBehavior.Collapse ? 2 : 3;
 
-                ContentDragTransform.X = Math.Max(-ActualWidth, Math.Min(e.Cumulative.Translation.X, 0));
+                ContentDragTransform.X = Math.Max(-ActualWidth, Math.Min(cumulative.X, 0));
 
                 if (ContentDragTransform.X > -(target * area1))
                 {
-                    RightTransform.X += (e.Delta.Translation.X / 1.5);
+                    RightTransform.X += (delta.X / 1.5);
                 }
                 else if (ContentDragTransform.X <= -(target * area1) && ContentDragTransform.X > -(target * area2))
                 {
-                    RightTransform.X += (e.Delta.Translation.X * 2.5);
+                    RightTransform.X += (delta.X * 2.5);
                 }
                 else
                 {
-                    RightTransform.X = Math.Max(-ActualWidth, Math.Min(e.Cumulative.Translation.X, 0)) + RightContainer.ActualWidth;
+                    RightTransform.X = Math.Max(-ActualWidth, Math.Min(cumulative.X, 0)) + RightContainer.ActualWidth;
                 }
 
-                if (ContentDragTransform.X == 0 && e.Delta.Translation.X > 0)
+                if (ContentDragTransform.X == 0 && delta.X > 0)
                 {
                     _direction = SwipeListDirection.None;
                 }
@@ -152,7 +183,11 @@ namespace Universal.UI.Xaml.Controls
             //base.OnManipulationDelta(e);
         }
 
+#if SILVERLIGHT
+        protected override void OnManipulationCompleted(ManipulationCompletedEventArgs e)
+#else
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
+#endif
         {
             var target = (ActualWidth / 5) * 2;
             if ((_direction == SwipeListDirection.Left && LeftBehavior == SwipeListBehavior.Expand) ||
@@ -263,7 +298,11 @@ namespace Universal.UI.Xaml.Controls
             anim.EasingFunction = easing;
 
             Storyboard.SetTarget(anim, target);
+#if SILVERLIGHT
+            Storyboard.SetTargetProperty(anim, new PropertyPath(path));
+#else
             Storyboard.SetTargetProperty(anim, path);
+#endif
 
             return anim;
         }
