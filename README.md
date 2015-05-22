@@ -6,7 +6,7 @@ This repository contains a list with items swiping feature, like the one in new 
 
 ![Demo](http://gifyu.com/images/ezgif-33935773781.gif)
 
-In Runtime controls are based on ListView & ListViewItem, in Silverlight on ListBox & ListBoxItem. Items have two side options fully customizables via ItemX properties of their parent SwipeListView.
+In Runtime controls are based on `ListView` & `ListViewItem`, in Silverlight on `ListBox` & `ListBoxItem`. Items have two side options fully customizables via ItemX properties of their parent SwipeListView.
 
 Available properties are:
 * `ItemLeft/RightBackground`: Changes color of side items backgroud.
