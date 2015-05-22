@@ -4,6 +4,8 @@ Introduction
 ============
 This repository contains a list with items swiping feature, like the one in new Outlook Mail app for Windows 10.
 
+![Demo][logo]
+
 In Runtime controls are based on ListView & ListViewItem, in Silverlight on ListBox & ListBoxItem. Items have two side options fully customizables via ItemX properties of their parent SwipeListView.
 
 Available properties are:
@@ -31,3 +33,4 @@ To use this controls you have just to add the project to your solution.
 A [NuGet] package is not available at this time.
 
 [NuGet]:http://nuget.org/
+[gif]:http://gifyu.com/images/ezgif-33935773781.gif
