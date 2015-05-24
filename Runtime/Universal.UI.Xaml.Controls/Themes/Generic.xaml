@@ -190,7 +190,7 @@
                                 </ContentControl>
                             </Border>
                         </Grid>
-                        <Border x:Name="DragContainer" RenderTransformOrigin="0.5,0.5" Background="{TemplateBinding Background}" ManipulationMode="System,TranslateX">
+                        <Border x:Name="DragContainer" RenderTransformOrigin="0.5,0.5" Background="Transparent" ManipulationMode="System,TranslateX">
                             <Border.RenderTransform>
                                 <TranslateTransform x:Name="ContentDragTransform"/>
                             </Border.RenderTransform>
