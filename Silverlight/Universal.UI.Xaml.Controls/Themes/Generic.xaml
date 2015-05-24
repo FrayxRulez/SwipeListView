@@ -11,8 +11,8 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="LeftBackground" Value="#007aff"/>
-        <Setter Property="RightBackground" Value="#ff3b30"/>
+        <Setter Property="ItemLeftBackground" Value="#007aff"/>
+        <Setter Property="ItemRightBackground" Value="#ff3b30"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:SwipeListView">
@@ -25,7 +25,7 @@
     </Style>
 
     <Style TargetType="local:SwipeListViewItem">
-        <Setter Property="Background" Value="{StaticResource PhoneBackgroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Padding" Value="0,0,0,18"/>
@@ -64,6 +64,13 @@
 
                         <Grid Margin="{TemplateBinding Padding}">
                             <Grid x:Name="DragBackground" Margin="0,1">
+                                <Grid.Clip>
+                                    <RectangleGeometry x:Name="DragClip" Rect="0,0,0,0">
+                                        <RectangleGeometry.Transform>
+                                            <TranslateTransform x:Name="DragClipTransform"/>
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </Grid.Clip>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition/>
@@ -86,7 +93,7 @@
                                     </ContentControl>
                                 </Border>
                             </Grid>
-                            <Border x:Name="DragContainer" RenderTransformOrigin="0.5,0.5" Background="{TemplateBinding Background}">
+                            <Border x:Name="DragContainer" RenderTransformOrigin="0.5,0.5" Background="Transparent">
                                 <Border.RenderTransform>
                                     <TranslateTransform x:Name="ContentDragTransform"/>
                                 </Border.RenderTransform>
