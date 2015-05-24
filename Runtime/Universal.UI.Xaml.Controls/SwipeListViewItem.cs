@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.Foundation;
 #endif
 
 namespace Universal.UI.Xaml.Controls
@@ -34,7 +35,8 @@ namespace Universal.UI.Xaml.Controls
         private Border RightContainer;
 
         private Grid DragBackground;
-
+        private RectangleGeometry DragClip;
+        private TranslateTransform DragClipTransform;
         private Border DragContainer;
 
         public SwipeListViewItem()
@@ -59,6 +61,8 @@ namespace Universal.UI.Xaml.Controls
             RightContainer = (Border)GetTemplateChild("RightContainer");
 
             DragBackground = (Grid)GetTemplateChild("DragBackground");
+            DragClip = (RectangleGeometry)GetTemplateChild("DragClip");
+            DragClipTransform = (TranslateTransform)GetTemplateChild("DragClipTransform");
             DragContainer = (Border)GetTemplateChild("DragContainer");
         }
 
@@ -70,6 +74,8 @@ namespace Universal.UI.Xaml.Controls
             if (DragBackground != null)
             {
                 DragBackground.Background = null;
+                DragClip.Rect = new Rect(0, 0, 0, 0);
+                DragClipTransform.X = 0;
 
                 ContentDragTransform.X = 0;
                 LeftTransform.X = -(LeftContainer.ActualWidth + 20);
@@ -108,6 +114,8 @@ namespace Universal.UI.Xaml.Controls
                 LeftTransform.X = -(LeftContainer.ActualWidth + 20);
                 RightTransform.X = (RightContainer.ActualWidth + 20);
 
+                DragClip.Rect = new Rect(_direction == SwipeListDirection.Left ? -ActualWidth : ActualWidth, 0, ActualWidth, ActualHeight);
+
                 if (_direction == SwipeListDirection.Left && LeftBehavior != SwipeListBehavior.Disabled)
                 {
                     DragBackground.Background = LeftBackground;
@@ -135,6 +143,7 @@ namespace Universal.UI.Xaml.Controls
                 var area2 = LeftBehavior == SwipeListBehavior.Collapse ? 2 : 3;
 
                 ContentDragTransform.X = Math.Max(0, Math.Min(cumulative.X, ActualWidth));
+                DragClipTransform.X = Math.Max(0, Math.Min(cumulative.X, ActualWidth));
 
                 if (ContentDragTransform.X < target * area1)
                 {
@@ -160,6 +169,7 @@ namespace Universal.UI.Xaml.Controls
                 var area2 = RightBehavior == SwipeListBehavior.Collapse ? 2 : 3;
 
                 ContentDragTransform.X = Math.Max(-ActualWidth, Math.Min(cumulative.X, 0));
+                DragClipTransform.X = Math.Max(-ActualWidth, Math.Min(cumulative.X, 0));
 
                 if (ContentDragTransform.X > -(target * area1))
                 {
@@ -228,11 +238,13 @@ namespace Universal.UI.Xaml.Controls
         private Storyboard CollapseAnimation(SwipeListDirection direction, bool raise)
         {
             var animDrag = CreateDouble(0, 300, ContentDragTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+            var animClip = CreateDouble(0, 300, DragClipTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
             var animLeft = CreateDouble(-(LeftContainer.ActualWidth + 20), 300, LeftTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
             var animRight = CreateDouble((RightContainer.ActualWidth + 20), 300, RightTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
 
             var currentAnim = new Storyboard();
             currentAnim.Children.Add(animDrag);
+            currentAnim.Children.Add(animClip);
             currentAnim.Children.Add(animLeft);
             currentAnim.Children.Add(animRight);
 
@@ -264,20 +276,24 @@ namespace Universal.UI.Xaml.Controls
             if (direction == SwipeListDirection.Left)
             {
                 var animDrag = CreateDouble(ActualWidth + 100, 300, ContentDragTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animClip = CreateDouble(ActualWidth, 300, DragClipTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
                 var animLeft = CreateDouble(ActualWidth + 100, 300, LeftTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseIn });
                 var animRight = CreateDouble(ActualWidth + 100, 300, RightTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseIn });
 
                 currentAnim.Children.Add(animDrag);
+                currentAnim.Children.Add(animClip);
                 currentAnim.Children.Add(animLeft);
                 currentAnim.Children.Add(animRight);
             }
             else if (direction == SwipeListDirection.Right)
             {
                 var animDrag = CreateDouble(-ActualWidth - 100, 300, ContentDragTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animClip = CreateDouble(-ActualWidth, 300, DragClipTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
                 var animLeft = CreateDouble(-ActualWidth - 100, 300, LeftTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseIn });
                 var animRight = CreateDouble(-ActualWidth - 100, 300, RightTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseIn });
 
                 currentAnim.Children.Add(animDrag);
+                currentAnim.Children.Add(animClip);
                 currentAnim.Children.Add(animLeft);
                 currentAnim.Children.Add(animRight);
             }
