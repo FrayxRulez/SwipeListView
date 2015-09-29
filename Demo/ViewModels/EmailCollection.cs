@@ -12,7 +12,6 @@ namespace Demo.ViewModels
         public EmailCollection()
             : base()
         {
-            Add(new EmailObject("Syncfusion, Inc.", "New E-book: ASP.NET Multitenant Applications Succintly", "ASP.NET Multitenant Applications", "11:03", true));
             Add(new EmailObject("Anne Wallace", "Did you have fun on your trip?", "It's awesome that you got the chance to ...", "1:34p", true));
             Add(new EmailObject("Jeff Smith", "Awesome job!", "I just went through the code you submitted ... ", "12:22p", true));
             Add(new EmailObject("Adriana Giorgi", "(no subject)", "Hello there. It's been really long since we ...", "11:11a", true));
