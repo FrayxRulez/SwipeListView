@@ -1,29 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="f7548ac6-38ec-4bf9-8f47-16e13af86561" Publisher="CN=Fela" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="f7548ac6-38ec-4bf9-8f47-16e13af86561" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  IgnorableNamespaces="uap mp">
+
+  <Identity
+    Name="b546a79f-792b-4d7a-9ffa-4fd36108bd42"
+    Publisher="CN=Fela"
+    Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="b546a79f-792b-4d7a-9ffa-4fd36108bd42" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
   <Properties>
-    <DisplayName>SwipeList Demo</DisplayName>
+    <DisplayName>Demo</DisplayName>
     <PublisherDisplayName>Fela</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-  <Prerequisites>
-    <OSMinVersion>6.3.1</OSMinVersion>
-    <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
-  </Prerequisites>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+
   <Resources>
-    <Resource Language="x-generate" />
+    <Resource Language="x-generate"/>
   </Resources>
+
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Demo.App">
-      <m3:VisualElements DisplayName="SwipeList Demo" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="Demo" ForegroundText="light" BackgroundColor="transparent">
-        <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
-        </m3:DefaultTile>
-        <m3:SplashScreen Image="Assets\SplashScreen.png" />
-      </m3:VisualElements>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="Demo.App">
+      <uap:VisualElements
+        DisplayName="Demo"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
+        Description="Demo"
+        BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
     </Application>
   </Applications>
+
   <Capabilities>
-    <Capability Name="internetClientServer" />
+    <Capability Name="internetClient" />
   </Capabilities>
 </Package>

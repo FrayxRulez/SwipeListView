@@ -30,7 +30,7 @@ namespace Universal.UI.Xaml.Controls
 
         protected override DependencyObject GetContainerForItemOverride()
         {
-            var container = new SwipeListViewItem();
+            var container = new SwipeListViewItem(this);
             SetItemBinding(container, "ItemLeftContentTemplate", SwipeListViewItem.LeftContentTemplateProperty);
             SetItemBinding(container, "ItemLeftBackground", SwipeListViewItem.LeftBackgroundProperty);
             SetItemBinding(container, "ItemLeftBehavior", SwipeListViewItem.LeftBehaviorProperty);
@@ -38,8 +38,6 @@ namespace Universal.UI.Xaml.Controls
             SetItemBinding(container, "ItemRightContentTemplate", SwipeListViewItem.RightContentTemplateProperty);
             SetItemBinding(container, "ItemRightBackground", SwipeListViewItem.RightBackgroundProperty);
             SetItemBinding(container, "ItemRightBehavior", SwipeListViewItem.RightBehaviorProperty);
-
-            container.ItemSwipe += Item_ItemSwipe;
 
             return container;
         }
@@ -64,7 +62,7 @@ namespace Universal.UI.Xaml.Controls
             base.PrepareContainerForItemOverride(element, item);
         }
 
-        private void Item_ItemSwipe(object sender, ItemSwipeEventArgs e)
+        internal void RaiseItemSwipe(ItemSwipeEventArgs e)
         {
             if (ItemSwipe != null)
                 ItemSwipe(this, e);

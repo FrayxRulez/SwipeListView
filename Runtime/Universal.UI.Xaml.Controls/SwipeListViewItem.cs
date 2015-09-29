@@ -39,9 +39,17 @@ namespace Universal.UI.Xaml.Controls
         private TranslateTransform DragClipTransform;
         private Border DragContainer;
 
+        private SwipeListView _parent;
+
         public SwipeListViewItem()
         {
             DefaultStyleKey = typeof(SwipeListViewItem);
+        }
+
+        internal SwipeListViewItem(SwipeListView parent)
+            : this()
+        {
+            _parent = parent;
         }
 
 #if SILVERLIGHT
@@ -91,15 +99,22 @@ namespace Universal.UI.Xaml.Controls
         protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
 #endif
         {
-            var target = ((ActualWidth / 5) * 1);
-
 #if SILVERLIGHT
             var delta = e.DeltaManipulation.Translation;
             var cumulative = e.CumulativeManipulation.Translation;
 #else
+            if (e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch || 
+                _parent?.SelectionMode != ListViewSelectionMode.None)
+            {
+                e.Complete();
+                return;
+            }
+
             var delta = e.Delta.Translation;
             var cumulative = e.Cumulative.Translation;
 #endif
+
+            var target = ((ActualWidth / 5) * 1);
 
             if (_direction == SwipeListDirection.None)
             {
@@ -265,6 +280,9 @@ namespace Universal.UI.Xaml.Controls
             {
                 if (ItemSwipe != null)
                     ItemSwipe(this, new ItemSwipeEventArgs(Content, direction));
+
+                if (_parent != null)
+                    _parent.RaiseItemSwipe(new ItemSwipeEventArgs(Content, direction));
             }
 
             return currentAnim;
@@ -302,6 +320,9 @@ namespace Universal.UI.Xaml.Controls
             {
                 if (ItemSwipe != null)
                     ItemSwipe(this, new ItemSwipeEventArgs(Content, direction));
+
+                if (_parent != null)
+                    _parent.RaiseItemSwipe(new ItemSwipeEventArgs(Content, direction));
             };
 
             return currentAnim;

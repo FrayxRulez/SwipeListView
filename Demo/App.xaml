@@ -5,4 +5,21 @@
     xmlns:local="using:Demo"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Name="Default">
+                    <SolidColorBrush x:Key="SystemControlForegroundAccentBrush" Color="#FF007AFF"/>
+                    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#FF007AFF"/>
+                    <SolidColorBrush x:Key="SystemControlHighlightAltAccentBrush" Color="#FF007AFF"/>
+                    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="#FF007AFF"/>
+
+                    <SolidColorBrush x:Key="SystemControlHighlightListAccentHighBrush" Color="#FF007AFF" Opacity="0.9" />
+                    <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="#FF007AFF" Opacity="0.6" />
+                    <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="#FF007AFF" Opacity="0.8" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
 </Application>

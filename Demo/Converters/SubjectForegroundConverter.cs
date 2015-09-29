@@ -9,7 +9,7 @@ namespace Demo.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (SolidColorBrush)App.Current.Resources[(bool)value ? "PhoneAccentBrush" : "PhoneMidBrush"];
+            return (SolidColorBrush)App.Current.Resources[(bool)value ? "SystemControlForegroundAccentBrush" : (string)parameter];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
