@@ -104,7 +104,8 @@ namespace Universal.UI.Xaml.Controls
             var cumulative = e.CumulativeManipulation.Translation;
 #else
             if (e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch || 
-                _parent?.SelectionMode != ListViewSelectionMode.None)
+                _parent?.SelectionMode == ListViewSelectionMode.Multiple ||
+                _parent?.SelectionMode == ListViewSelectionMode.Extended)
             {
                 e.Complete();
                 return;
