@@ -394,7 +394,6 @@
     </Style>
 
     <Style TargetType="local:SwipeListView">
-        <Setter Property="IsSwipeEnabled" Value="True" />
         <Setter Property="ItemLeftBackground" Value="#007aff"/>
         <Setter Property="ItemRightBackground" Value="#ff3b30"/>
         <Setter Property="IsTabStop" Value="False" />
