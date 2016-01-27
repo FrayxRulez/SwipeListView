@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Media;
 
 namespace Universal.UI.Xaml.Controls
 {
+    using System.Windows.Input;
+
 #if SILVERLIGHT
     public class SwipeListView : ListBox
 #else
@@ -64,8 +66,31 @@ namespace Universal.UI.Xaml.Controls
 
         internal void RaiseItemSwipe(ItemSwipeEventArgs e)
         {
+            switch (e.Direction)
+            {
+                case SwipeListDirection.Left:
+                    RaiseSwipeCommand(ItemLeftCommand, e.SwipedItem);
+                    break;
+                case SwipeListDirection.Right:
+                    RaiseSwipeCommand(ItemRightCommand, e.SwipedItem);
+                    break;
+            }
+
             if (ItemSwipe != null)
                 ItemSwipe(this, e);
+        }
+
+        private void RaiseSwipeCommand(ICommand command, object swipedItem)
+        {
+            if (command == null)
+            {
+                return;
+            }
+
+            if (command.CanExecute(swipedItem))
+            {
+                command.Execute(swipedItem);
+            }
         }
 
         /// <summary>
@@ -115,6 +140,20 @@ namespace Universal.UI.Xaml.Controls
             DependencyProperty.Register("ItemLeftBehavior", typeof(SwipeListBehavior), typeof(SwipeListView), new PropertyMetadata(SwipeListBehavior.Collapse));
         #endregion
 
+        #region ItemRightCommand
+        public ICommand ItemLeftCommand
+        {
+            get { return (ICommand)GetValue(ItemLeftCommandProperty); }
+            set { SetValue(ItemLeftCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the ItemLeftCommand dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemLeftCommandProperty =
+            DependencyProperty.Register("ItemLeftCommand", typeof(ICommand), typeof(SwipeListView), new PropertyMetadata(null));
+        #endregion
+
         #region ItemRightContentTemplate
         public DataTemplate ItemRightContentTemplate
         {
@@ -156,5 +195,23 @@ namespace Universal.UI.Xaml.Controls
         public static readonly DependencyProperty ItemRightBehaviorProperty =
             DependencyProperty.Register("ItemRightBehavior", typeof(SwipeListBehavior), typeof(SwipeListView), new PropertyMetadata(SwipeListBehavior.Expand));
         #endregion
+
+
+
+        #region ItemRightCommand
+        public ICommand ItemRightCommand
+        {
+            get { return (ICommand)GetValue(ItemRightCommandProperty); }
+            set { SetValue(ItemRightCommandProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the ItemRightCommand dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ItemRightCommandProperty =
+            DependencyProperty.Register("ItemRightCommand", typeof(ICommand), typeof(SwipeListView), new PropertyMetadata(null)); 
+        #endregion
+
+
     }
 }
