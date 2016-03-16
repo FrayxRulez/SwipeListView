@@ -229,6 +229,8 @@ namespace Universal.UI.Xaml.Controls
             {
                 if (LeftBehavior == SwipeListBehavior.Collapse)
                     currentAnim = CollapseAnimation(SwipeListDirection.Left, true);
+                else if (LeftBehavior == SwipeListBehavior.Persist)
+                    currentAnim = PersistAnimation(SwipeListDirection.Left, target);
                 else
                     currentAnim = ExpandAnimation(SwipeListDirection.Left);
             }
@@ -236,6 +238,8 @@ namespace Universal.UI.Xaml.Controls
             {
                 if (RightBehavior == SwipeListBehavior.Collapse)
                     currentAnim = CollapseAnimation(SwipeListDirection.Right, true);
+                else if (RightBehavior == SwipeListBehavior.Persist)
+                    currentAnim = PersistAnimation(SwipeListDirection.Right, target);
                 else
                     currentAnim = ExpandAnimation(SwipeListDirection.Right);
             }
@@ -329,6 +333,48 @@ namespace Universal.UI.Xaml.Controls
             return currentAnim;
         }
 
+
+
+        private Storyboard PersistAnimation(SwipeListDirection direction, double target)
+        {
+            var currentAnim = new Storyboard();
+            if (direction == SwipeListDirection.Left)
+            {
+                var animDrag = CreateDouble(target, 300, ContentDragTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animClip = CreateDouble(target, 300, DragClipTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animLeft = CreateDouble(-LeftContainer.ActualWidth + target, 300, LeftTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animRight = CreateDouble((RightContainer.ActualWidth + target), 300, RightTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+
+                currentAnim.Children.Add(animDrag);
+                currentAnim.Children.Add(animClip);
+                currentAnim.Children.Add(animLeft);
+                currentAnim.Children.Add(animRight);
+            }
+            else if (direction == SwipeListDirection.Right)
+            {
+                var animDrag = CreateDouble(-target, 300, ContentDragTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animClip = CreateDouble(-target, 300, DragClipTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animLeft = CreateDouble(-LeftContainer.ActualWidth - target, 300, LeftTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+                var animRight = CreateDouble((RightContainer.ActualWidth - target), 300, RightTransform, "TranslateTransform.X", new ExponentialEase { EasingMode = EasingMode.EaseOut });
+
+                currentAnim.Children.Add(animDrag);
+                currentAnim.Children.Add(animClip);
+                currentAnim.Children.Add(animLeft);
+                currentAnim.Children.Add(animRight);
+            }
+
+            currentAnim.Completed += (s, args) =>
+            {
+                if (ItemSwipe != null)
+                    ItemSwipe(this, new ItemSwipeEventArgs(Content, direction));
+
+                if (_parent != null)
+                    _parent.RaiseItemSwipe(new ItemSwipeEventArgs(Content, direction));
+            };
+
+            return currentAnim;
+        }
+
         private DoubleAnimation CreateDouble(double to, int duration, DependencyObject target, string path, EasingFunctionBase easing)
         {
             var anim = new DoubleAnimation();
@@ -344,6 +390,13 @@ namespace Universal.UI.Xaml.Controls
 #endif
 
             return anim;
+        }
+
+
+        public void CollapseSwipeContent()
+        {
+            var animation = CollapseAnimation(SwipeListDirection.Left, false);
+            animation.Begin();
         }
 
         /// <summary>

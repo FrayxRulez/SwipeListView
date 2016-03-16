@@ -19,6 +19,11 @@ namespace Universal.UI.Xaml.Controls
         Collapse,
 
         /// <summary>
+        /// Triggered when swipe reaches 2/5 of the width of the item. Once triggered side menu will continue to stay open, <see cref="SwipeListViewItem"/> state is not restored.
+        /// </summary>
+        Persist,
+
+        /// <summary>
         /// Swipe is disabled.
         /// </summary>
         Disabled
