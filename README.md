@@ -31,7 +31,7 @@ Install
 =======
 You can install the library via [NuGet].
 
-###Install-Package [SwipeListView]
+### Install-Package [SwipeListView]
 
 [NuGet]:http://nuget.org/
 [SwipeListView]:http://www.nuget.org/packages/SwipeListView
